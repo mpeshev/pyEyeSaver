@@ -1,7 +1,8 @@
 #/usr/bin/env python
 
 # A tool for brighness and gamma changes 
-# used on ThinkPad on Mate Desktop on Fedora 17
+# used on ThinkPad on Mate Desktop on Fedora 17 and Mate Desktop on Fedora 22
+# Relies on wxPython
 
 
 import wx
@@ -39,7 +40,7 @@ class EyeSaver(wx.Panel):
 	# manage the sliderUpdate when a slider is dragged
 	def sliderUpdate(self, event):
 		bpos = self.brightness.GetValue()
-		brightlabel = "brightness = %f" % (bpos)
+		brightlabel = "Brightness = %f" % (bpos)
 		event_id = event.GetId()
 		
 		#call(["xrandr", "--output", "LVDS1", "--brightness", str(bpos)])
@@ -47,7 +48,8 @@ class EyeSaver(wx.Panel):
 		self.brightlabel.SetLabel(brightlabel)
 		# handle brighness event
 		if event_id == 360:
-			call(["xrandr", "--output", "LVDS1", "--brightness", str(bpos)])
+			# LVDS1 is optional, check with your xrandr first
+			call(["xrandr", "--output", "LVDS2", "--brightness", str(bpos)])
 		
 		# handle red gamma event
 		elif event_id == 370:
@@ -76,7 +78,7 @@ class EyeSaver(wx.Panel):
 
 
 app = wx.App(False)
-frame = wx.Frame(None, wx.ID_ANY, "Hello World", size=(400, 400))
+frame = wx.Frame(None, wx.ID_ANY, "Eye Saver", size=(400, 400))
 
 EyeSaver(frame, -1)
 
